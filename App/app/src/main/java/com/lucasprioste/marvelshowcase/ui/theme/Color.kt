@@ -2,7 +2,13 @@ package com.lucasprioste.marvelshowcase.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val White = Color(0xFFFFFFFF)
+val BlackBG = Color(0xFF181818)
+val BlackText = Color(0xB2000000)
+val Purple = Color(0x806415A9)
+val GrayLight = Color(0x12000000)
+val GrayMedium = Color(0x12FFFFFF)
+
+
+
+
