@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Marvel ShowCase</string>
+    <string name="marvel_logo">Marvel Logo</string>
+    <string name="rigths">© Marvel 2023 - All rights reserved</string>
 </resources>

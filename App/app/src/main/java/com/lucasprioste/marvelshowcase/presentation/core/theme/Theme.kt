@@ -1,4 +1,4 @@
-package com.lucasprioste.marvelshowcase.ui.theme
+package com.lucasprioste.marvelshowcase.presentation.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
