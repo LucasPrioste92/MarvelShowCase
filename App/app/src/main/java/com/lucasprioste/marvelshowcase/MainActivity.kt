@@ -14,7 +14,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lucasprioste.marvelshowcase.presentation.core.navigation.BottomNavigation
 import com.lucasprioste.marvelshowcase.presentation.core.navigation.Navigation
+import com.lucasprioste.marvelshowcase.presentation.core.navigation.Route
 import com.lucasprioste.marvelshowcase.presentation.core.theme.MarvelShowCaseTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,19 +47,19 @@ fun MarvelShowCaseApp(
     }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    /*when (navBackStackEntry?.destination?.route) {
-        HomeScreen.route, TimeScreen.route, ExpensesScreen.route, ReportScreen.route, AccountScreen.route -> {
+    when (navBackStackEntry?.destination?.route) {
+        Route.HomeScreen.route, Route.AboutScreen.route -> {
             bottomBarState.value = true
         }
         else -> bottomBarState.value = false
-    }*/
+    }
 
     Scaffold(
         bottomBar = {
-            /*BottomNavigation(
+            BottomNavigation(
                 bottomBarState = bottomBarState,
                 navController = navController
-            )*/
+            )
         }
     ) { innerPadding ->
         Navigation(navController = navController, innerPadding = innerPadding)

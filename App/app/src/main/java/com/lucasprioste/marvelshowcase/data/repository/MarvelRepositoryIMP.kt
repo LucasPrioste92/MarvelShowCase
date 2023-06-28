@@ -6,7 +6,6 @@ import com.lucasprioste.marvelshowcase.data.mapper.toCharactersList
 import com.lucasprioste.marvelshowcase.data.remote.MarvelApi
 import com.lucasprioste.marvelshowcase.domain.model.Character
 import com.lucasprioste.marvelshowcase.domain.repository.MarvelRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

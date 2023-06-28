@@ -68,7 +68,7 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(innerPadding)
             .padding(horizontal = PAGE_MARGIN_HORIZONTAL)
-            .padding(top = PAGE_MARGIN_TOP, bottom = PAGE_MARGIN_BOTTOM),
+            .padding(top = PAGE_MARGIN_TOP),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Row(

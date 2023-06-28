@@ -19,7 +19,7 @@ private val LightColorPalette = lightColors(
     primary = GrayLight,
     onPrimary = BlackText,
     background = White,
-    onBackground = GrayLight,
+    onBackground = BlackText,
     surface = Purple,
     onSurface = White,
 )

@@ -39,7 +39,7 @@ fun CardCharacter(
                 onCardClick()
             },
         shape = RoundedCornerShape(20.dp),
-        elevation = 25.dp
+        elevation = 8.dp
     ){
         Box {
             SubcomposeAsyncImage(
