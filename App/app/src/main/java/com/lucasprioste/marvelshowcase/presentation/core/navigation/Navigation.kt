@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.lucasprioste.marvelshowcase.presentation.home_screen.HomeScreen
 import com.lucasprioste.marvelshowcase.presentation.splash_screen.SplashScreen
 
 @Composable
@@ -20,7 +21,7 @@ fun Navigation(
             SplashScreen(navigator = navController)
         }
         composable(route = Route.HomeScreen.route) {
-
+            HomeScreen(navigator = navController, innerPadding = innerPadding)
         }
         composable(route = Route.DetailScreen.route) {
 
