@@ -52,7 +52,7 @@ fun HomeScreen(
     val paginationInfo = viewModel.pagination.collectAsState().value
 
     LaunchedEffect(key1 = endList){
-        if (!paginationInfo.isLoading && charactersList.isNotEmpty()){
+        if (!paginationInfo.isLoading && charactersList.isNotEmpty() && !paginationInfo.endReached){
             viewModel.onEvent(HomeEvent.LoadMore)
         }
     }
@@ -91,6 +91,7 @@ fun HomeScreen(
             )
         }
         OutlinedTextField(
+            enabled = charactersList.isNotEmpty(),
             value = searchInput,
             onValueChange = {
                 viewModel.onEvent(

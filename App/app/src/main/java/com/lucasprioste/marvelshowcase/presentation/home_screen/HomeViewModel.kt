@@ -28,13 +28,17 @@ class HomeViewModel @Inject constructor(
     private val _pagination = MutableStateFlow(PaginationInfo())
     val pagination = _pagination.asStateFlow()
 
+    private var listBeforeSearch = emptyList<Character>()
+    private var paginationBeforeSearch: PaginationInfo? = null
+
     private val paginator = DefaultPaginator(
-        initialKey = pagination.value.page,
+        initialKey = _pagination.value.page,
         onLoadUpdated = { load ->
             _pagination.update { it.copy(isLoading = load) }
         },
         onRequest = { nextPage ->
-            repository.getCharactersList(offset = nextPage, limit = 10)
+            val search = searchInput.value.ifBlank { null }
+            repository.getCharactersList(offset = nextPage, limit = 10, nameStartsWith = search)
         },
         getNextKey = {
             _pagination.update{ it.copy(page = it.page + 1) }
@@ -60,7 +64,19 @@ class HomeViewModel @Inject constructor(
                 _searchInput.update { event.query }
             }
             HomeContract.HomeEvent.SearchCharacter -> {
-                Log.d("AQUI","AQUI")
+                if (searchInput.value.isNotBlank()){
+                    listBeforeSearch = charactersList.value
+                    paginationBeforeSearch = pagination.value
+                    _pagination.update { PaginationInfo() }
+                    _charactersList.update { emptyList() }
+                    paginator.reset(key = 0)
+                    loadNextItems()
+                }else if (listBeforeSearch.isNotEmpty()){
+                    _pagination.update { paginationBeforeSearch ?: PaginationInfo() }
+                    _charactersList.update { listBeforeSearch }
+                    paginator.reset(key = paginationBeforeSearch?.page ?: 0)
+                    listBeforeSearch = emptyList()
+                }
             }
             HomeContract.HomeEvent.LoadMore -> {
                 loadNextItems()

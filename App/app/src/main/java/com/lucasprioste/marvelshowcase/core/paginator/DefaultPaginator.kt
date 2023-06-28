@@ -1,6 +1,7 @@
 package com.lucasprioste.marvelshowcase.core.paginator
 
 import com.lucasprioste.marvelshowcase.core.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 
 class DefaultPaginator<Key, Item>(
@@ -19,7 +20,7 @@ class DefaultPaginator<Key, Item>(
         if(isMakingRequest) {
             return
         }
-
+        isMakingRequest = true
         onRequest(currentKey).collect{ response ->
             when(response){
                 is Resource.Error -> {
@@ -39,7 +40,7 @@ class DefaultPaginator<Key, Item>(
         }
     }
 
-    override fun reset() {
-        currentKey = initialKey
+    override fun reset(key: Key?) {
+        currentKey = key ?: initialKey
     }
 }
