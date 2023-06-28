@@ -16,7 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.lucasprioste.marvelshowcase.presentation.core.navigation.Navigation
 import com.lucasprioste.marvelshowcase.presentation.core.theme.MarvelShowCaseTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +27,10 @@ class MainActivity : ComponentActivity() {
 
                 val systemUiController = rememberSystemUiController()
                 systemUiController.setSystemBarsColor(
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.primary
                 )
 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    MarvelShowCaseApp()
-                }
+                MarvelShowCaseApp()
             }
         }
     }

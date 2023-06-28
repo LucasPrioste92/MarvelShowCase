@@ -13,6 +13,21 @@ val arialFontFamily = FontFamily(
     Font(resId = R.font.arial_bold_mt, weight = FontWeight.Bold),
 )
 val Typography = Typography(
+    h1 = TextStyle(
+        fontFamily = arialFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 36.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = arialFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = arialFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
     body1 = TextStyle(
         fontFamily = arialFontFamily,
         fontWeight = FontWeight.Normal,

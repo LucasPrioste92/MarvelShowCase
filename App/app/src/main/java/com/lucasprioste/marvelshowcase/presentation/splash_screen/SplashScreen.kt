@@ -28,8 +28,8 @@ fun SplashScreen(
 ){
     val context = LocalContext.current
 
-    val scale = remember{
-        Animatable(0f)
+    val scale by remember{
+        mutableStateOf( Animatable(0f))
     }
     
     var textToShow by remember {
