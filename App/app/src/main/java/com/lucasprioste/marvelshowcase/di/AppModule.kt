@@ -3,7 +3,9 @@ package com.lucasprioste.marvelshowcase.di
 import com.lucasprioste.marvelshowcase.core.MarvelApiInterceptor
 import com.lucasprioste.marvelshowcase.data.remote.MarvelApi
 import com.lucasprioste.marvelshowcase.data.repository.MarvelRepositoryIMP
+import com.lucasprioste.marvelshowcase.data.repository.SessionRepositoryIMP
 import com.lucasprioste.marvelshowcase.domain.repository.MarvelRepository
+import com.lucasprioste.marvelshowcase.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,5 +39,11 @@ object AppModule {
     @Singleton
     fun providesMarvelRepository(api: MarvelApi): MarvelRepository{
         return MarvelRepositoryIMP(api = api)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSessionRepository(): SessionRepository{
+        return SessionRepositoryIMP()
     }
 }
