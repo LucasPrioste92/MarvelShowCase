@@ -44,6 +44,7 @@ class HomeViewModel @Inject constructor(
             _pagination.update { it.copy(error = message) }
         },
         onSuccess = { items, newKey ->
+            Log.d("AQUI", items.map { it.name }.toString())
             _charactersList.update { oldItems -> oldItems + items }
             _pagination.update { it.copy(page = newKey, endReached = items.isEmpty()) }
         }

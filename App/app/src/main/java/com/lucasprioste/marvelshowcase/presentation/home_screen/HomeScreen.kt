@@ -1,6 +1,8 @@
 package com.lucasprioste.marvelshowcase.presentation.home_screen
 
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,12 +10,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,10 +43,25 @@ fun HomeScreen(
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    var endList by remember {
+        mutableStateOf(false)
+    }
 
     val searchInput = viewModel.searchInput.collectAsState().value
     val charactersList = viewModel.charactersList.collectAsState().value
     val paginationInfo = viewModel.pagination.collectAsState().value
+
+    LaunchedEffect(key1 = endList){
+        if (!paginationInfo.isLoading && charactersList.isNotEmpty()){
+            viewModel.onEvent(HomeEvent.LoadMore)
+        }
+    }
+
+    LaunchedEffect(key1 = paginationInfo.isLoading){
+        if (!paginationInfo.isLoading){
+            endList = false
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -111,9 +128,11 @@ fun HomeScreen(
         )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(31.dp)
+            verticalArrangement = Arrangement.spacedBy(31.dp),
         ){
-            items(charactersList){ item ->
+            itemsIndexed(charactersList){ i, item ->
+                endList = i == charactersList.lastIndex
+
                 CardCharacter(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -138,7 +157,9 @@ fun HomeScreen(
                             )
                         }
                     }
-                }else if(paginationInfo.isLoading){
+                }
+
+                AnimatedVisibility(visible = paginationInfo.isLoading) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -150,6 +171,5 @@ fun HomeScreen(
                 }
             }
         }
-
     }
 }

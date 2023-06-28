@@ -28,7 +28,7 @@ class MarvelRepositoryIMP @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val response = api.getCharacters(
-                    offset = offset,
+                    offset = offset * limit,
                     limit = limit,
                     orderBy = orderBy?.type ?: OrderByCharacter.NameAscending.type,
                     nameStartsWith = nameStartsWith
