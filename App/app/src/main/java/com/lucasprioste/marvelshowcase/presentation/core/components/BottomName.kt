@@ -39,7 +39,8 @@ fun BottomName(
                 style = MaterialTheme.typography.h2,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                fontSize = fontSize?.sp ?: 20.sp
+                fontSize = fontSize?.sp ?: 20.sp,
+                color = MaterialTheme.colors.onSurface
             )
             if (showShareBtn){
                 Icon(
@@ -48,7 +49,8 @@ fun BottomName(
                     modifier = Modifier
                         .clickable {
                             onShareClick?.let { it() }
-                        }
+                        },
+                    tint = MaterialTheme.colors.onSurface
                 )
             }
         }

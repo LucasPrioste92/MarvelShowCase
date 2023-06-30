@@ -23,5 +23,9 @@ interface MarvelRepository {
         typeData: TypeDataRequest,
     ): Flow<Resource<List<ItemData>>>
 
+    suspend fun getComics(
+        offset: Int,
+        limit: Int,
+    ): Flow<Resource<List<ItemData>>>
 
 }

@@ -12,5 +12,6 @@ sealed class HomeContract{
     }
     sealed class HomeAction{
         object NavigateToCharacterScreen: HomeAction()
+        data class Error(val msg: Int): HomeAction()
     }
 }

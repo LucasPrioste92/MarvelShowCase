@@ -64,19 +64,22 @@ fun VerticalSection(
                         widthImage = 51
                     )
                 }
-            }
-            AnimatedVisibility(visible = pagination.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .size(28.dp)
-                            .align(Alignment.Center),
-                        color = MaterialTheme.colors.primary
-                    )
+                item {
+                    AnimatedVisibility(visible = pagination.isLoading) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .align(Alignment.Center),
+                                color = MaterialTheme.colors.primary
+                            )
+                        }
+                    }
                 }
             }
+
         }else if (pagination.isLoading){
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp)

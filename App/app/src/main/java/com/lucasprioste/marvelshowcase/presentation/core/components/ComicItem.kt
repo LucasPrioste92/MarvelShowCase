@@ -1,9 +1,6 @@
-package com.lucasprioste.marvelshowcase.presentation.detail_screen.components
+package com.lucasprioste.marvelshowcase.presentation.core.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +33,7 @@ fun ComicItem(
             description = comic.title + " " + stringResource(id = R.string.comic_thumbnail)
         )
         Text(
+            modifier = Modifier.fillMaxHeight(),
             text = comic.title,
             lineHeight = 24.sp,
             maxLines = 2,

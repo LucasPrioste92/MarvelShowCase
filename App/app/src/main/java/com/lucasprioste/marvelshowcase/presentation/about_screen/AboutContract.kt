@@ -1,14 +1,11 @@
-package com.lucasprioste.marvelshowcase.presentation.detail_screen
+package com.lucasprioste.marvelshowcase.presentation.about_screen
 
-sealed class DetailContract{
-    sealed class DetailEvent{
-        object LoadMoreComics: DetailEvent()
-        object LoadMoreEvents: DetailEvent()
-        object LoadMoreStories: DetailEvent()
-        object LoadMoreSeries: DetailEvent()
-        object OnErrorSeen: DetailEvent()
+sealed class AboutContract{
+    sealed class AboutEvent{
+        object LoadMore: AboutEvent()
+        object OnActionSeen: AboutEvent()
     }
-    sealed class DetailAction{
-        data class ShowError(val messageId: Int): DetailAction()
+    sealed class AboutAction{
+        data class ShowError(val messageId: Int): AboutAction()
     }
 }
