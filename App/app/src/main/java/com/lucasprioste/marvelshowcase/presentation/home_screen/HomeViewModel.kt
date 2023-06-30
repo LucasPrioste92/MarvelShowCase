@@ -3,6 +3,7 @@ package com.lucasprioste.marvelshowcase.presentation.home_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lucasprioste.marvelshowcase.R
 import com.lucasprioste.marvelshowcase.core.paginator.DefaultPaginator
 import com.lucasprioste.marvelshowcase.domain.model.characters.Character
 import com.lucasprioste.marvelshowcase.domain.model.pagination.PaginationInfo
@@ -53,6 +54,7 @@ class HomeViewModel @Inject constructor(
         },
         onError = { message ->
             _pagination.update { it.copy(error = message) }
+            _action.update { HomeContract.HomeAction.Error(msg = R.string.something_went_wrong) }
         },
         onSuccess = { items, newKey ->
             _charactersList.update { oldItems -> oldItems + items }

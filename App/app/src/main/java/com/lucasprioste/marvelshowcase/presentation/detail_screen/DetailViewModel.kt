@@ -2,6 +2,7 @@ package com.lucasprioste.marvelshowcase.presentation.detail_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lucasprioste.marvelshowcase.R
 import com.lucasprioste.marvelshowcase.core.TypeDataRequest
 import com.lucasprioste.marvelshowcase.core.paginator.DefaultPaginator
 import com.lucasprioste.marvelshowcase.domain.model.characters.Character
@@ -66,6 +67,7 @@ class DetailViewModel @Inject constructor(
         },
         onError = { message ->
             _paginationComics.update { it.copy(error = message) }
+            generalError()
         },
         onSuccess = { items, newKey ->
             _comics.update { oldItems -> oldItems + items }
@@ -87,6 +89,7 @@ class DetailViewModel @Inject constructor(
         },
         onError = { message ->
             _paginationEvents.update { it.copy(error = message) }
+            generalError()
         },
         onSuccess = { items, newKey ->
             _events.update { oldItems -> oldItems + items }
@@ -108,6 +111,7 @@ class DetailViewModel @Inject constructor(
         },
         onError = { message ->
             _paginationStories.update { it.copy(error = message) }
+            generalError()
         },
         onSuccess = { items, newKey ->
             _stories.update { oldItems -> oldItems + items }
@@ -129,12 +133,17 @@ class DetailViewModel @Inject constructor(
         },
         onError = { message ->
             _paginationSeries.update { it.copy(error = message) }
+            generalError()
         },
         onSuccess = { items, newKey ->
             _series.update { oldItems -> oldItems + items }
             _paginationSeries.update { it.copy(page = newKey, endReached = items.isEmpty()) }
         }
     )
+
+    private fun generalError(){
+        _action.update { DetailContract.DetailAction.ShowError(messageId = R.string.something_went_wrong) }
+    }
 
     init {
         _character.update { sessionRepository.getCharacter() }
@@ -162,7 +171,7 @@ class DetailViewModel @Inject constructor(
                 if (!paginationStories.value.isLoading && stories.value.isNotEmpty() && !paginationStories.value.endReached)
                     loadStoriesNextItems()
             }
-            DetailContract.DetailEvent.OnErrorSeen -> _action.update { null }
+            DetailContract.DetailEvent.OnActionSeen -> _action.update { null }
         }
     }
 

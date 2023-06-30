@@ -75,4 +75,24 @@ class MarvelRepositoryIMP @Inject constructor(
         }
     }
 
+    override suspend fun getComics(offset: Int, limit: Int): Flow<Resource<List<ItemData>>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val response = api.getComics(
+                    offset = offset * limit,
+                    limit = limit,
+                )
+                emit(Resource.Success(response.toItemList()))
+            }catch (e: IOException){
+                e.printStackTrace()
+                emit(Resource.Error(message = e.message ?: "Something Went Wrong"))
+            }catch (e: HttpException){
+                e.printStackTrace()
+                emit(Resource.Error(message = e.message ?: "Request Error"))
+            }
+            emit(Resource.Loading(false))
+        }
+    }
+
 }

@@ -31,7 +31,8 @@ val Typography = Typography(
     body1 = TextStyle(
         fontFamily = arialFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 28.sp
     ),
     caption = TextStyle(
         fontFamily = arialFontFamily,

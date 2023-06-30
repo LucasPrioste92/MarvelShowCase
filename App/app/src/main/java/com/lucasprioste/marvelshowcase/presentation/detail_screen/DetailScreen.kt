@@ -1,14 +1,19 @@
 package com.lucasprioste.marvelshowcase.presentation.detail_screen
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,18 +21,17 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.lucasprioste.marvelshowcase.R
 import com.lucasprioste.marvelshowcase.core.shimmerEffect
+import com.lucasprioste.marvelshowcase.presentation.core.components.ComicItem
+import com.lucasprioste.marvelshowcase.presentation.core.components.OnBottomReached
 import com.lucasprioste.marvelshowcase.presentation.core.theme.PAGE_MARGIN_HORIZONTAL
 import com.lucasprioste.marvelshowcase.presentation.core.theme.SPACE_AFTER_TITLE_DETAIL
-import com.lucasprioste.marvelshowcase.presentation.detail_screen.components.ComicItem
 import com.lucasprioste.marvelshowcase.presentation.detail_screen.components.HeaderCharacter
 import com.lucasprioste.marvelshowcase.presentation.detail_screen.components.VerticalSection
-import com.lucasprioste.marvelshowcase.presentation.core.components.OnBottomReached
 
 @Composable
 fun DetailScreen(
@@ -45,6 +49,18 @@ fun DetailScreen(
     val paginationEvents = viewModel.paginationEvents.collectAsState().value
     val paginationStories = viewModel.paginationStories.collectAsState().value
     val paginationSeries = viewModel.paginationSeries.collectAsState().value
+    val action = viewModel.action.collectAsState().value
+
+    LaunchedEffect(key1 = action){
+        action?.let {
+            viewModel.onEvent(DetailContract.DetailEvent.OnActionSeen)
+            when(it){
+                is DetailContract.DetailAction.ShowError -> {
+                    Toast.makeText(context,context.getString(it.messageId), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     val scrollStateComics = rememberLazyListState()
 
@@ -97,7 +113,6 @@ fun DetailScreen(
                     Spacer(modifier = Modifier.height(SPACE_AFTER_TITLE_DETAIL))
                     Text(
                         text = character.description,
-                        lineHeight = 28.sp,
                     )
                 }
             }
@@ -120,12 +135,11 @@ fun DetailScreen(
                             ComicItem(
                                 modifier = Modifier
                                     .width(150.dp)
-                                    .height(260.dp),
+                                    .height(265.dp),
                                 comic = it
                             )
                         }
                         item {
-
                             AnimatedVisibility(visible = paginationComics.isLoading) {
                                 Box(
                                     modifier = Modifier.height(260.dp)
@@ -140,7 +154,6 @@ fun DetailScreen(
                             }
                         }
                     }
-
                 }else if (paginationComics.isLoading){
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(18.dp)

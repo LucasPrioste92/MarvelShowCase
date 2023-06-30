@@ -1,7 +1,7 @@
 package com.lucasprioste.marvelshowcase.data.mapper.common
 
 import com.lucasprioste.marvelshowcase.data.remote.dto.common.ItemDto
-import com.lucasprioste.marvelshowcase.data.remote.dto.common.ResponseDto
+import com.lucasprioste.marvelshowcase.data.remote.dto.common.ResponseDefaultDto
 import com.lucasprioste.marvelshowcase.data.remote.dto.common.ThumbnailDto
 import com.lucasprioste.marvelshowcase.domain.model.common.ItemData
 import com.lucasprioste.marvelshowcase.domain.model.common.Thumbnail
@@ -14,7 +14,7 @@ fun ThumbnailDto.toThumbnail(): Thumbnail {
     )
 }
 
-fun ResponseDto.toItemList(): List<ItemData> {
+fun ResponseDefaultDto.toItemList(): List<ItemData> {
     return data.results.map { it.toEvent() }
 }
 

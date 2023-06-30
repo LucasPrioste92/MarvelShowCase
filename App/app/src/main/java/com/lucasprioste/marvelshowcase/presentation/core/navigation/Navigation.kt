@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.lucasprioste.marvelshowcase.presentation.about_screen.AboutScreen
 import com.lucasprioste.marvelshowcase.presentation.core.theme.*
 import com.lucasprioste.marvelshowcase.presentation.detail_screen.DetailScreen
 import com.lucasprioste.marvelshowcase.presentation.home_screen.HomeScreen
@@ -36,7 +37,7 @@ fun Navigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Route.SplashScreen.route,
+        startDestination = Route.AboutScreen.route,
     ) {
         composable(route = Route.SplashScreen.route) {
             SplashScreen(navigator = navController)
@@ -48,7 +49,7 @@ fun Navigation(
             DetailScreen(navigator = navController)
         }
         composable(route = Route.AboutScreen.route) {
-
+            AboutScreen(innerPadding = innerPadding)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.lucasprioste.marvelshowcase.presentation.home_screen
 
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +17,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -43,6 +45,7 @@ fun HomeScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val scrollState = rememberLazyListState()
+    val context = LocalContext.current
 
     val searchInput = viewModel.searchInput.collectAsState().value
     val charactersList = viewModel.charactersList.collectAsState().value
@@ -55,6 +58,9 @@ fun HomeScreen(
             when(it){
                 HomeAction.NavigateToCharacterScreen -> {
                     navigator.navigate(Route.DetailScreen.route)
+                }
+                is HomeAction.Error -> {
+                    Toast.makeText(context,context.getString(it.msg),Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -81,6 +87,7 @@ fun HomeScreen(
                 text = stringResource(id = R.string.home_title),
                 style = MaterialTheme.typography.h1,
                 fontSize = 36.sp,
+                color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.fillMaxWidth(0.9f)
             )
             Image(
