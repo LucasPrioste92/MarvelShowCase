@@ -20,7 +20,7 @@ class DefaultPaginator<Key, Item>(
         if(isMakingRequest) {
             return
         }
-        isMakingRequest = true
+
         onRequest(currentKey).collect{ response ->
             when(response){
                 is Resource.Error -> {

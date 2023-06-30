@@ -5,4 +5,14 @@
     <string name="home_title">Avengers, Assemble!</string>
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="overview">Overview</string>
+    <string name="comic_thumbnail">Comic Thumbnail</string>
+    <string name="comics">Comics</string>
+    <string name="events">Events</string>
+    <string name="event_thumbnail">Event Thumbnail</string>
+    <string name="stories">Stories</string>
+    <string name="series">Series</string>
+    <string name="link_character">Link to Share the Marvel Character</string>
 </resources>

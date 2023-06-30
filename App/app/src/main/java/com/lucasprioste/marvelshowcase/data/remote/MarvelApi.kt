@@ -1,8 +1,11 @@
 package com.lucasprioste.marvelshowcase.data.remote
 
+import com.lucasprioste.marvelshowcase.BuildConfig
 import com.lucasprioste.marvelshowcase.core.md5
-import com.lucasprioste.marvelshowcase.data.remote.dto.CharactersResponseDto
+import com.lucasprioste.marvelshowcase.data.remote.dto.characters.CharactersResponseDto
+import com.lucasprioste.marvelshowcase.data.remote.dto.common.ResponseDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import kotlin.random.Random
 
@@ -16,11 +19,17 @@ interface MarvelApi {
         @Query("nameStartsWith") nameStartsWith: String?,
     ): CharactersResponseDto
 
+    @GET("/v1/public/characters/{id}/{type}")
+    suspend fun getDataRelatedToCharacter(
+        @Path("id") characterId: Int,
+        @Path("type") type: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+    ): ResponseDto
+
     companion object{
-        const val PRIVATE_API_KEY = "ab83cb83c2ff8f6d37a3d2edf9182217cdb38d72"
-        const val PUBLIC_API_KEY = "892df08f3fe8c333e2efa0b7de1fdd0a"
         const val BASE_URL = "http://gateway.marvel.com"
         val TS = Random.nextInt()
-        val HASH = md5(TS.toString() + PRIVATE_API_KEY + PUBLIC_API_KEY)
+        val HASH = md5(TS.toString() + BuildConfig.PRIVATE_API_KEY + BuildConfig.PUBLIC_API_KEY)
     }
 }

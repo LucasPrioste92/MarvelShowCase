@@ -46,7 +46,7 @@ fun SplashScreen(
                 }
             )
         )
-        delay(1200L)
+        delay(1600L)
         navigator.popBackStack()
         navigator.navigate(Route.HomeScreen.route)
     }

@@ -1,5 +1,6 @@
 package com.lucasprioste.marvelshowcase.core
 
+import com.lucasprioste.marvelshowcase.BuildConfig
 import com.lucasprioste.marvelshowcase.data.remote.MarvelApi
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -13,7 +14,7 @@ class MarvelApiInterceptor: Interceptor {
 
         val url = originalHttpUrl.newBuilder()
             .addQueryParameter("ts", MarvelApi.TS.toString())
-            .addQueryParameter("apikey", MarvelApi.PUBLIC_API_KEY)
+            .addQueryParameter("apikey", BuildConfig.PUBLIC_API_KEY)
             .addQueryParameter("hash", MarvelApi.HASH)
             .build()
 

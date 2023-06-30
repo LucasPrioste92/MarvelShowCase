@@ -1,16 +1,12 @@
 package com.lucasprioste.marvelshowcase.presentation.home_screen
 
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -25,14 +21,17 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.lucasprioste.marvelshowcase.R
 import com.lucasprioste.marvelshowcase.core.AspectRatio
 import com.lucasprioste.marvelshowcase.core.shimmerEffect
+import com.lucasprioste.marvelshowcase.presentation.core.navigation.Route
 import com.lucasprioste.marvelshowcase.presentation.core.theme.*
 import com.lucasprioste.marvelshowcase.presentation.home_screen.HomeContract.*
 import com.lucasprioste.marvelshowcase.presentation.home_screen.components.CardCharacter
+import com.lucasprioste.marvelshowcase.presentation.core.components.OnBottomReached
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -43,24 +42,26 @@ fun HomeScreen(
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    var endList by remember {
-        mutableStateOf(false)
-    }
+    val scrollState = rememberLazyListState()
 
     val searchInput = viewModel.searchInput.collectAsState().value
     val charactersList = viewModel.charactersList.collectAsState().value
     val paginationInfo = viewModel.pagination.collectAsState().value
+    val action = viewModel.action.collectAsState().value
 
-    LaunchedEffect(key1 = endList){
-        if (!paginationInfo.isLoading && charactersList.isNotEmpty() && !paginationInfo.endReached){
-            viewModel.onEvent(HomeEvent.LoadMore)
+    LaunchedEffect(key1 = action){
+        action?.let {
+            viewModel.onEvent(HomeEvent.OnActionSeen)
+            when(it){
+                HomeAction.NavigateToCharacterScreen -> {
+                    navigator.navigate(Route.DetailScreen.route)
+                }
+            }
         }
     }
 
-    LaunchedEffect(key1 = paginationInfo.isLoading){
-        if (!paginationInfo.isLoading){
-            endList = false
-        }
+    scrollState.OnBottomReached {
+        viewModel.onEvent(HomeEvent.LoadMore)
     }
 
     Column(
@@ -79,6 +80,7 @@ fun HomeScreen(
             Text(
                 text = stringResource(id = R.string.home_title),
                 style = MaterialTheme.typography.h1,
+                fontSize = 36.sp,
                 modifier = Modifier.fillMaxWidth(0.9f)
             )
             Image(
@@ -129,18 +131,20 @@ fun HomeScreen(
         )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
+            state = scrollState,
             verticalArrangement = Arrangement.spacedBy(31.dp),
         ){
-            itemsIndexed(charactersList){ i, item ->
-                endList = i == charactersList.lastIndex
-
+            items(
+                items = charactersList,
+                key = { item ->  item.id }
+            ){ item ->
                 CardCharacter(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(185.dp),
                     name = item.name,
-                    imageUri = item.thumbnail.getUriThumbnail(aspectRatio = AspectRatio.Landscape()),
-                    onCardClick = {}
+                    imageUri = item.thumbnail.getUriThumbnail(aspectRatio = AspectRatio.Landscape),
+                    onCardClick = { viewModel.onEvent(HomeEvent.OnCharacterClick(character = item)) }
                 )
             }
             item {
@@ -159,12 +163,13 @@ fun HomeScreen(
                         }
                     }
                 }
-
+            }
+            item {
                 AnimatedVisibility(visible = paginationInfo.isLoading) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(bottom = 18.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
                         CircularProgressIndicator()

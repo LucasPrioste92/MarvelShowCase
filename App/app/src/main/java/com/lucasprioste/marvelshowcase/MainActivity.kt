@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,13 +27,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MarvelShowCaseTheme {
-
                 val systemUiController = rememberSystemUiController()
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary
                 )
 
                 MarvelShowCaseApp()
+
             }
         }
     }
@@ -42,26 +43,16 @@ class MainActivity : ComponentActivity() {
 fun MarvelShowCaseApp(
     navController: NavHostController = rememberNavController()
 ){
-    val bottomBarState = rememberSaveable {
-        mutableStateOf(true)
-    }
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    when (navBackStackEntry?.destination?.route) {
-        Route.HomeScreen.route, Route.AboutScreen.route -> {
-            bottomBarState.value = true
-        }
-        else -> bottomBarState.value = false
-    }
-
     Scaffold(
         bottomBar = {
             BottomNavigation(
-                bottomBarState = bottomBarState,
                 navController = navController
             )
         }
     ) { innerPadding ->
-        Navigation(navController = navController, innerPadding = innerPadding)
+        Navigation(
+            innerPadding = innerPadding,
+            navController = navController
+        )
     }
 }

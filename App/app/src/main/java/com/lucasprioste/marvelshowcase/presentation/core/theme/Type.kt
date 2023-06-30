@@ -16,7 +16,7 @@ val Typography = Typography(
     h1 = TextStyle(
         fontFamily = arialFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 36.sp
+        fontSize = 27.sp
     ),
     h2 = TextStyle(
         fontFamily = arialFontFamily,
