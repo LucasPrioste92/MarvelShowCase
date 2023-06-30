@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lucasprioste.marvelshowcase.core.paginator.DefaultPaginator
-import com.lucasprioste.marvelshowcase.domain.model.Character
-import com.lucasprioste.marvelshowcase.domain.model.PaginationInfo
+import com.lucasprioste.marvelshowcase.domain.model.characters.Character
+import com.lucasprioste.marvelshowcase.domain.model.pagination.PaginationInfo
 import com.lucasprioste.marvelshowcase.domain.repository.MarvelRepository
+import com.lucasprioste.marvelshowcase.domain.repository.SessionRepository
+import com.lucasprioste.marvelshowcase.presentation.home_screen.HomeContract.HomeAction.NavigateToCharacterScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -16,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: MarvelRepository
+    private val repository: MarvelRepository,
+    private val sessionRepository: SessionRepository,
 ): ViewModel() {
 
     private val _charactersList = MutableStateFlow((emptyList<Character>()))
@@ -27,6 +31,9 @@ class HomeViewModel @Inject constructor(
 
     private val _pagination = MutableStateFlow(PaginationInfo())
     val pagination = _pagination.asStateFlow()
+
+    private val _action = MutableStateFlow<HomeContract.HomeAction?>(null)
+    val action = _action.asStateFlow()
 
     private var listBeforeSearch = emptyList<Character>()
     private var paginationBeforeSearch: PaginationInfo? = null
@@ -48,7 +55,6 @@ class HomeViewModel @Inject constructor(
             _pagination.update { it.copy(error = message) }
         },
         onSuccess = { items, newKey ->
-            Log.d("AQUI", items.map { it.name }.toString())
             _charactersList.update { oldItems -> oldItems + items }
             _pagination.update { it.copy(page = newKey, endReached = items.isEmpty()) }
         }
@@ -79,13 +85,20 @@ class HomeViewModel @Inject constructor(
                 }
             }
             HomeContract.HomeEvent.LoadMore -> {
-                loadNextItems()
+                if (!pagination.value.isLoading && charactersList.value.isNotEmpty() && !pagination.value.endReached) {
+                    loadNextItems()
+                }
             }
+            is HomeContract.HomeEvent.OnCharacterClick -> {
+                sessionRepository.setCharacter(data = event.character)
+                _action.update { NavigateToCharacterScreen }
+            }
+            HomeContract.HomeEvent.OnActionSeen -> { _action.update { null } }
         }
     }
 
     private fun loadNextItems(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             paginator.loadNextItems()
         }
     }

@@ -6,6 +6,11 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        realease {
+        }
+    }
+
     namespace 'com.lucasprioste.marvelshowcase'
     compileSdk 33
 
@@ -20,11 +25,16 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "PRIVATE_API_KEY", "\"ab83cb83c2ff8f6d37a3d2edf9182217cdb38d72\"")
+        buildConfigField("String", "PUBLIC_API_KEY", "\"892df08f3fe8c333e2efa0b7de1fdd0a\"")
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,6 +44,8 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        languageVersion = '1.4'
+        apiVersion = '1.4'
     }
     buildFeatures {
         compose true
@@ -89,4 +101,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }

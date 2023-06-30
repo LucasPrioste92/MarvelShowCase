@@ -11,8 +11,7 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -26,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.lucasprioste.marvelshowcase.presentation.core.theme.*
+import com.lucasprioste.marvelshowcase.presentation.detail_screen.DetailScreen
 import com.lucasprioste.marvelshowcase.presentation.home_screen.HomeScreen
 import com.lucasprioste.marvelshowcase.presentation.splash_screen.SplashScreen
 
@@ -45,7 +45,7 @@ fun Navigation(
             HomeScreen(navigator = navController, innerPadding = innerPadding)
         }
         composable(route = Route.DetailScreen.route) {
-
+            DetailScreen(navigator = navController)
         }
         composable(route = Route.AboutScreen.route) {
 
@@ -55,19 +55,35 @@ fun Navigation(
 
 @Composable
 fun BottomNavigation(
-    bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
-    val items = listOf(
-        BottomNavItem.Home,
-        BottomNavItem.About,
-    )
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    val items by remember {
+        mutableStateOf(
+            listOf(
+                BottomNavItem.Home,
+                BottomNavItem.About,
+            )
+        )
+    }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     val menuColor = if(!isSystemInDarkTheme()) GrayLight else GrayMedium
 
+    var bottomBarState by remember {
+        mutableStateOf(false)
+    }
+
+    bottomBarState = when (currentRoute) {
+        Route.HomeScreen.route, Route.AboutScreen.route -> {
+            true
+        }
+        else -> false
+    }
+
     AnimatedVisibility(
-        visible = bottomBarState.value,
+        visible = bottomBarState,
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
         content = {
@@ -99,7 +115,13 @@ fun BottomNavigation(
                                                 .height(40.dp)
                                                 .background(
                                                     alpha = 0.2f,
-                                                    brush = Brush.radialGradient(colors = listOf(color,color, menuColor)),
+                                                    brush = Brush.radialGradient(
+                                                        colors = listOf(
+                                                            color,
+                                                            color,
+                                                            menuColor
+                                                        )
+                                                    ),
                                                 )
                                             )
                                             Icon(

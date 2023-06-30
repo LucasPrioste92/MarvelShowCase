@@ -1,6 +1,6 @@
 package com.lucasprioste.marvelshowcase.data.repository
 
-import com.lucasprioste.marvelshowcase.domain.model.Character
+import com.lucasprioste.marvelshowcase.domain.model.characters.Character
 import com.lucasprioste.marvelshowcase.domain.repository.SessionRepository
 
 class SessionRepositoryIMP : SessionRepository {
