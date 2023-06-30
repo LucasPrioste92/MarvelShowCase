@@ -6,7 +6,7 @@ sealed class DetailContract{
         object LoadMoreEvents: DetailEvent()
         object LoadMoreStories: DetailEvent()
         object LoadMoreSeries: DetailEvent()
-        object OnErrorSeen: DetailEvent()
+        object OnActionSeen: DetailEvent()
     }
     sealed class DetailAction{
         data class ShowError(val messageId: Int): DetailAction()

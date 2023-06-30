@@ -3,7 +3,7 @@ package com.lucasprioste.marvelshowcase.data.remote
 import com.lucasprioste.marvelshowcase.BuildConfig
 import com.lucasprioste.marvelshowcase.core.md5
 import com.lucasprioste.marvelshowcase.data.remote.dto.characters.CharactersResponseDto
-import com.lucasprioste.marvelshowcase.data.remote.dto.common.ResponseDto
+import com.lucasprioste.marvelshowcase.data.remote.dto.common.ResponseDefaultDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -25,7 +25,14 @@ interface MarvelApi {
         @Path("type") type: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
-    ): ResponseDto
+    ): ResponseDefaultDto
+
+    @GET("/v1/public/comics")
+    suspend fun getComics(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+        @Query("orderBy") orderBy: String = "-focDate",
+    ): ResponseDefaultDto
 
     companion object{
         const val BASE_URL = "http://gateway.marvel.com"

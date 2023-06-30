@@ -15,4 +15,11 @@
     <string name="stories">Stories</string>
     <string name="series">Series</string>
     <string name="link_character">Link to Share the Marvel Character</string>
+    <string name="about_title">About this app</string>
+    <string name="we_can_be_heroes">We can be heroes</string>
+    <string name="body_heroes">Charismatic, agile, strong, united, passionate and with a lot of wisdom, we are all Heroes in our own way.</string>
+    <string name="body_overview">In fact, what makes us heroes are not supernatural forces, but the small gestures and attitudes that help to improve the daily lives of all of us and those around us. Heroes from December 8th to 11th at Parque das Nações – Lisbon.</string>
+    <string name="top_selling">Top selling items</string>
+    <string name="link_selling">market.epopculture.com</string>
+    <string name="something_went_wrong">"Something went wrong "</string>
 </resources>
