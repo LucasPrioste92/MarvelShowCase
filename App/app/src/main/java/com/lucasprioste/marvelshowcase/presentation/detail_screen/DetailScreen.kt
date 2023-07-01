@@ -202,7 +202,6 @@ fun DetailScreen(
                         viewModel.onEvent(DetailContract.DetailEvent.LoadMoreSeries)
                     }
                 )
-
             }
         }
     }

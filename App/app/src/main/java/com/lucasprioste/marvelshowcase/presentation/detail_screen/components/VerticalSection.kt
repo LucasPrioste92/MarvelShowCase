@@ -52,7 +52,7 @@ fun VerticalSection(
             ){
                 itemsIndexed(
                     items = data,
-                    key = { _, item -> item.id}
+                    key = { index, _ -> index}
                 ) { i, event ->
                     DefaultVerticalItem(
                         modifier = Modifier
