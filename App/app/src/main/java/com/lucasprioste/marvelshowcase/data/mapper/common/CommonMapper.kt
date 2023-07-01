@@ -15,10 +15,10 @@ fun ThumbnailDto.toThumbnail(): Thumbnail {
 }
 
 fun ResponseDefaultDto.toItemList(): List<ItemData> {
-    return data.results.map { it.toEvent() }
+    return data.results.map { it.toItem() }
 }
 
-fun ItemDto.toEvent(): ItemData {
+fun ItemDto.toItem(): ItemData {
     return ItemData(
         id = id,
         title = title,

@@ -100,7 +100,7 @@ fun HomeScreen(
             )
         }
         OutlinedTextField(
-            enabled = charactersList.isNotEmpty(),
+            enabled = !paginationInfo.isLoading,
             value = searchInput,
             onValueChange = {
                 viewModel.onEvent(

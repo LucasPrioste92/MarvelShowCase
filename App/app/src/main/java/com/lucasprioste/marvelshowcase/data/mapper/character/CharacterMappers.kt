@@ -18,7 +18,7 @@ fun CharactersListDto.toCharactersList(): CharactersList {
     )
 }
 
-private fun CharacterDto.toCharacter(): Character {
+fun CharacterDto.toCharacter(): Character {
     return Character(
         id = id,
         name = name,
